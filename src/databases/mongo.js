@@ -1,5 +1,5 @@
+import { MongoClient, ObjectId } from "mongodb";
 import dotenv from "dotenv";
-import { MongoClient } from "mongodb";
 
 dotenv.config();
 
@@ -15,4 +15,4 @@ async function closeDataBase() {
   await mongoClient.close();
 }
 
-export { getDataBase, closeDataBase };
+export { getDataBase, closeDataBase, ObjectId };
