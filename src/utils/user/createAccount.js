@@ -6,6 +6,7 @@ async function createAccount(user, db) {
   await db.collection("users").insertOne({
     name: user.name,
     email: user.email,
+    balance: 0.0,
     password: passwordHash,
   });
 }
