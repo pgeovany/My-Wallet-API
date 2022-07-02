@@ -1,5 +1,7 @@
 import joi from "joi";
 
+const TWO_DECIMAL_PLACES = 2;
+
 const singupSchema = joi.object({
   name: joi.string().required(),
   email: joi.string().email().required(),
@@ -11,4 +13,11 @@ const singinSchema = joi.object({
   password: joi.string().required(),
 });
 
-export { singupSchema, singinSchema };
+const transactionSchema = joi.object({
+  type: joi.string().valid("credit", "debit").required(),
+  date: joi.date().required(),
+  value: joi.number().positive().precision(TWO_DECIMAL_PLACES).required(),
+  description: joi.string().required(),
+});
+
+export { singupSchema, singinSchema, transactionSchema };
