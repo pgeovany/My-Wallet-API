@@ -3,12 +3,12 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const { MONGO_URI, MONGO_DATABASE } = process.env;
+const { MONGO_URI } = process.env;
 const mongoClient = new MongoClient(MONGO_URI);
 
 async function getDataBase() {
   await mongoClient.connect();
-  return mongoClient.db(MONGO_DATABASE);
+  return mongoClient.db("test");
 }
 
 async function closeDataBase() {

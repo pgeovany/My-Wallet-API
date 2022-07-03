@@ -26,7 +26,9 @@ async function getTransactions(req, res) {
 
   try {
     const transactions = await getUserTransactions(userId, db);
-    res.status(STATUS.OK).send({ name, balance, transactions });
+    res
+      .status(STATUS.OK)
+      .send({ name, balance, transactions: transactions.reverse() });
   } catch (error) {
     res
       .status(STATUS.INTERNAL_SERVER_ERROR)
