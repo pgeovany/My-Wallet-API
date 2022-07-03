@@ -1,13 +1,23 @@
 import { Router } from "express";
-import addTransaction from "../controllers/transactionsController.js";
 import addTransactionValidationMiddleware from "../middlewares/addTransactionValidationMiddleware.js";
+import getTransactionsValidationMiddleware from "../middlewares/getTransactionsValidationMiddleware.js";
+import {
+  getTransactions,
+  addTransaction,
+} from "../controllers/transactionsController.js";
 
 const transactionsRouter = Router();
 
 transactionsRouter.post(
-  "/add-transaction",
+  "/transactions",
   addTransactionValidationMiddleware,
   addTransaction
+);
+
+transactionsRouter.get(
+  "/transactions",
+  getTransactionsValidationMiddleware,
+  getTransactions
 );
 
 export default transactionsRouter;

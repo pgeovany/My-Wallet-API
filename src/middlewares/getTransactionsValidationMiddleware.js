@@ -1,21 +1,11 @@
 import { getDataBase, closeDataBase } from "../databases/mongo.js";
-import { transactionSchema } from "../utils/schemas.js";
 import STATUS from "../utils/statusCodes.js";
-import getUserById from "../utils/user/getUserById.js";
 import getSession from "../utils/user/getSession.js";
+import getUserById from "../utils/user/getUserById.js";
 
-async function addTransactionValidationMiddleware(req, res, next) {
+async function getTransactionsValidationMiddleware(req, res, next) {
   const { authorization } = req.headers;
   const token = authorization?.replace("Bearer ", "");
-  const transaction = req.body;
-  transaction.value = parseFloat(transaction.value);
-
-  try {
-    await transactionSchema.validateAsync(transaction);
-  } catch (error) {
-    res.sendStatus(STATUS.UNPROCESSABLE_ENTITY);
-    return;
-  }
 
   if (!token) {
     res.sendStatus(STATUS.UNAUTHORIZED);
@@ -41,8 +31,9 @@ async function addTransactionValidationMiddleware(req, res, next) {
     }
 
     req.locals = {
+      name: user.name,
       userId: user._id,
-      transaction,
+      balance: user.balance,
       db,
     };
 
@@ -50,9 +41,10 @@ async function addTransactionValidationMiddleware(req, res, next) {
   } catch (error) {
     res
       .status(STATUS.INTERNAL_SERVER_ERROR)
-      .send("Erro ao realizar transação, tente novamente mais tarde!");
+      .send(
+        "Erro ao carregar a lista de transações, tente novamente mais tarde!"
+      );
     closeDataBase();
   }
 }
-
-export default addTransactionValidationMiddleware;
+export default getTransactionsValidationMiddleware;
