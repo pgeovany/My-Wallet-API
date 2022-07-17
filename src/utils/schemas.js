@@ -15,7 +15,7 @@ const singinSchema = joi.object({
 
 const transactionSchema = joi.object({
   type: joi.string().valid("credit", "debit").required(),
-  date: joi.date().required(),
+  date: joi.string().required(),
   value: joi.number().positive().precision(TWO_DECIMAL_PLACES).required(),
   description: joi.string().required(),
 });
